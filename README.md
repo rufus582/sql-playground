@@ -1,207 +1,88 @@
-Welcome to your new TanStack Start app!
+<p align="center">
+  <img alt="header" src="https://shieldcn.dev/header/dots.svg?title=SQL+Playground&amp;subtitle=Import+JSON%2C+CSV+or+Parquet+files+and+query+them+with+SQL%2C+right+in+your+browser%21%0A&amp;logo=https%3A%2F%2Fraw.githubusercontent.com%2Frufus582%2Fsql-playground%2Frefs%2Fheads%2Fmaster%2Fpublic%2Flogo.svg&amp;size=wide&amp;mode=dark" />
+</p>
 
-# Getting Started
+<p align="center">
+  <a href="https://sql.rufus582.dev/"><img alt="Check it out" src="https://shieldcn.dev/badge/Check_it_out-f0b100.svg?logo=lu%3AExternalLink" /></a>
+  <a href="https://github.com/rufus582/sql-playground"><img alt="stars" src="https://shieldcn.dev/github/rufus582/sql-playground/stars.svg?variant=secondary" /></a>
+</p>
 
-To run this application:
+## Overview
 
-```bash
-bun install
-bun --bun run dev
+SQL Playground lets you load data files into an in-browser database and query them with SQL. It started as the SQL Playground tool in [Dev-Utils.](https://github.com/rufus582/dev-utils) and now lives on as its own app.
+
+The databases run entirely in your browser via WebAssembly, so your data never leaves your machine.
+
+- **Two database engines**: switch between [DuckDB](https://duckdb.org/) and [SQLite](https://sqlite.org/) from the toolbar
+- **Import tables** from JSON or Parquet files
+- **Run all or run selected**: execute the whole script or only the highlighted query
+- **Show tables** to see what's loaded in the current database
+- **Tabbed results**: each query's output appears in its own result tab
+
+## Tech Stack
+
+[![Tanstack Start](https://shieldcn.dev/badge/Tanstack%20Start.svg?variant=branded&font=fira-code&logo=tanstack)](https://tanstack.com/start/latest)
+[![React](https://shieldcn.dev/badge/React.svg?variant=branded&font=fira-code&logo=react)](https://react.dev/)
+[![Tailwind CSS](https://shieldcn.dev/badge/Tailwind%20CSS.svg?variant=branded&font=fira-code&logo=tailwindcss)](https://tailwindcss.com/)
+[![DuckDB](https://shieldcn.dev/badge/DuckDB.svg?variant=branded&font=fira-code&logo=duckdb)](https://duckdb.org/docs/api/wasm/overview)
+[![SQLite](https://shieldcn.dev/badge/SQLite.svg?variant=branded&font=fira-code&logo=sqlite)](https://sql.js.org/)
+[![Cloudflare Workers](https://shieldcn.dev/badge/Cloudflare%20Workers.svg?variant=branded&font=fira-code&logo=cloudflare)](https://workers.cloudflare.com/)
+[![Vite](https://shieldcn.dev/badge/Vite.svg?variant=branded&font=fira-code&logo=vite)](https://vite.dev/)
+
+## Getting Started
+
+To get a local copy of this project running, follow the steps below.
+
+### Prerequisites
+
+You need to have [![Bun](https://shieldcn.dev/badge/Bun.svg?variant=branded&size=xs&logo=bun)](https://bun.sh) installed. For macOS with [![Homebrew](https://shieldcn.dev/badge/Homebrew.svg?variant=branded&size=xs&logo=homebrew)](https://brew.sh/), run the command below:
+
+```sh
+brew install oven-sh/bun/bun
 ```
 
-# Building For Production
+For other platforms and more details, see the [official installation guide](https://bun.sh/docs/installation).
 
-To build this application for production:
+### Installation
 
-```bash
-bun --bun run build
-```
+1. Clone the repo
 
-## Styling
+   ```sh
+   git clone https://github.com/rufus582/sql-playground.git
+   ```
 
-This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
+2. Install dependencies (this also copies the SQLite WASM files into `public/`)
 
-### Removing Tailwind CSS
+   ```sh
+   bun install
+   ```
 
-If you prefer not to use Tailwind CSS:
+3. Run the dev server
 
-1. Remove the demo pages in `src/routes/demo/`
-2. Replace the Tailwind import in `src/styles.css` with your own styles
-3. Remove `tailwindcss()` from the plugins array in `vite.config.ts`
-4. Remove `@tailwindcss/vite` and `tailwindcss` from `package.json`
+   ```sh
+   bun run dev
+   ```
 
-## Linting & Formatting
+4. Visit http://localhost:3000 in your browser to use the app
 
-This project uses [Biome](https://biomejs.dev/) for linting and formatting. The following scripts are available:
+## Contributing
 
+I am not currently accepting direct contributions.
 
-```bash
-bun --bun run lint
-bun --bun run format
-bun --bun run check
-```
+If you'd like to help:
 
+- Open an issue for bugs or feature requests.
+- If you already have a proposed solution, include it in the issue.
+- If the proposal looks like a good fit, I may ask you to submit a pull request.
+- We'll take it from there.
 
-## Deploy to Cloudflare Workers
+## License
 
-This project uses the Cloudflare Vite plugin (configured in `vite.config.ts`) and `wrangler.jsonc`:
+Distributed under the MIT License. See `LICENSE.txt` for more information.
 
-1. Install Wrangler: `npm install -g wrangler`
-2. Authenticate: `wrangler login`
-3. Deploy: `npx wrangler deploy`
+## Contact
 
-For production env vars, run `wrangler secret put MY_VAR` for each secret listed in `.env.example`. Public (non-secret) vars go in `wrangler.jsonc` under `vars`.
-
-KV, D1, R2, and Durable Object bindings are configured in `wrangler.jsonc` — see https://developers.cloudflare.com/workers/wrangler/configuration/.
-
-
-
-## Routing
-
-This project uses [TanStack Router](https://tanstack.com/router) with file-based routing. Routes are managed as files in `src/routes`.
-
-### Adding A Route
-
-To add a new route to your application just add a new file in the `./src/routes` directory.
-
-TanStack will automatically generate the content of the route file for you.
-
-Now that you have two routes you can use a `Link` component to navigate between them.
-
-### Adding Links
-
-To use SPA (Single Page Application) navigation you will need to import the `Link` component from `@tanstack/react-router`.
-
-```tsx
-import { Link } from "@tanstack/react-router";
-```
-
-Then anywhere in your JSX you can use it like so:
-
-```tsx
-<Link to="/about">About</Link>
-```
-
-This will create a link that will navigate to the `/about` route.
-
-More information on the `Link` component can be found in the [Link documentation](https://tanstack.com/router/v1/docs/framework/react/api/router/linkComponent).
-
-### Using A Layout
-
-In the File Based Routing setup the layout is located in `src/routes/__root.tsx`. Anything you add to the root route will appear in all the routes. The route content will appear in the JSX where you render `{children}` in the `shellComponent`.
-
-Here is an example layout that includes a header:
-
-```tsx
-import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
-
-export const Route = createRootRoute({
-  head: () => ({
-    meta: [
-      { charSet: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'My App' },
-    ],
-  }),
-  shellComponent: ({ children }) => (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        <header>
-          <nav>
-            <Link to="/">Home</Link>
-            <Link to="/about">About</Link>
-          </nav>
-        </header>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  ),
-})
-```
-
-More information on layouts can be found in the [Layouts documentation](https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#layouts).
-
-## Server Functions
-
-TanStack Start provides server functions that allow you to write server-side code that seamlessly integrates with your client components.
-
-```tsx
-import { createServerFn } from '@tanstack/react-start'
-
-const getServerTime = createServerFn({
-  method: 'GET',
-}).handler(async () => {
-  return new Date().toISOString()
-})
-
-// Use in a component
-function MyComponent() {
-  const [time, setTime] = useState('')
-  
-  useEffect(() => {
-    getServerTime().then(setTime)
-  }, [])
-  
-  return <div>Server time: {time}</div>
-}
-```
-
-## API Routes
-
-You can create API routes by using the `server` property in your route definitions:
-
-```tsx
-import { createFileRoute } from '@tanstack/react-router'
-import { json } from '@tanstack/react-start'
-
-export const Route = createFileRoute('/api/hello')({
-  server: {
-    handlers: {
-      GET: () => json({ message: 'Hello, World!' }),
-    },
-  },
-})
-```
-
-## Data Fetching
-
-There are multiple ways to fetch data in your application. You can use TanStack Query to fetch data from a server. But you can also use the `loader` functionality built into TanStack Router to load the data for a route before it's rendered.
-
-For example:
-
-```tsx
-import { createFileRoute } from '@tanstack/react-router'
-
-export const Route = createFileRoute('/people')({
-  loader: async () => {
-    const response = await fetch('https://swapi.dev/api/people')
-    return response.json()
-  },
-  component: PeopleComponent,
-})
-
-function PeopleComponent() {
-  const data = Route.useLoaderData()
-  return (
-    <ul>
-      {data.results.map((person) => (
-        <li key={person.name}>{person.name}</li>
-      ))}
-    </ul>
-  )
-}
-```
-
-Loaders simplify your data fetching logic dramatically. Check out more information in the [Loader documentation](https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#loader-parameters).
-
-
-
-# Learn More
-
-You can learn more about all of the offerings from TanStack in the [TanStack documentation](https://tanstack.com).
-
-For TanStack Start specific documentation, visit [TanStack Start](https://tanstack.com/start).
+[![Email](https://shieldcn.dev/badge/hi@rufus582.dev.svg?variant=secondary&logo=lu%3AMail)](mailto:hi@rufus582.dev)
+[![X](https://shieldcn.dev/badge/rufus582.svg?variant=branded&logo=x)](https://x.com/rufus582)
+[![LinkedIn](https://shieldcn.dev/badge/rufus582-0A66C2.svg?logo=ri%3ABsLinkedin)](https://linkedin.com/in/rufus582)
+[![Website](https://shieldcn.dev/badge/rufus582.dev.svg?variant=branded&theme=emerald&logo=lu%3AGlobe)](https://rufus582.dev)
