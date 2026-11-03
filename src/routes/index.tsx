@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { usePanelRef } from "react-resizable-panels";
 import { toast } from "sonner";
 import { useImmer } from "use-immer";
+import { GithubLink } from "#components/github-link";
 import { ThemeSwitcher } from "#components/theme-switcher";
 import {
 	MIN_PENDING_DURATION_MS,
@@ -199,7 +200,10 @@ function RouteComponent() {
 					<Icon icon={DatabaseIcon} size={24} />
 					SQL Playground
 				</h1>
-				<ThemeSwitcher />
+				<div className="flex items-center gap-2">
+					<GithubLink />
+					<ThemeSwitcher />
+				</div>
 			</header>
 			<Separator className="-mx-4 data-horizontal:w-auto" />
 			<div className="flex justify-between">

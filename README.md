@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="header" src="https://shieldcn.dev/header/dots.svg?title=SQL+Playground&amp;subtitle=Import+JSON%2C+CSV+or+Parquet+files+and+query+them+with+SQL%2C+right+in+your+browser%21%0A&amp;logo=https%3A%2F%2Fraw.githubusercontent.com%2Frufus582%2Fsql-playground%2Frefs%2Fheads%2Fmaster%2Fpublic%2Flogo.svg&amp;size=wide&amp;mode=dark" />
+  <img alt="header" src="https://shieldcn.dev/header/dots.svg?title=SQL+Playground&amp;subtitle=Import+JSON%2C+CSV+or+Parquet+files+and+query+them+with+SQL%2C+right+in+your+browser%21%0A&amp;size=wide&amp;mode=dark" />
 </p>
 
 <p align="center">
