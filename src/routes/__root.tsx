@@ -12,7 +12,7 @@ import appCss from "../styles.css?url";
 
 const THEME_STORAGE_KEY = "ui-theme";
 
-const themeScript = `(function(){try{var t=localStorage.getItem('${THEME_STORAGE_KEY}-resolved');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.classList.add(t);}catch(e){}})();`;
+const themeScript = `(function(){try{var t=localStorage.getItem('${THEME_STORAGE_KEY}');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}var c=document.documentElement.classList;c.remove('light','dark');c.add(t);}catch(e){}})();`;
 
 export const Route = createRootRoute({
 	head: () => ({

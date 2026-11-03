@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+	createContext,
+	useCallback,
+	useContext,
+	useEffect,
+	useSyncExternalStore,
+} from "react";
 import { useSystemTheme } from "#hooks/use-system-theme";
 
 type Theme = "dark" | "light" | "system";
@@ -35,6 +41,20 @@ const getResolvedTheme = (theme: Theme, systemTheme: ResolvedTheme) => {
 	return theme === "system" ? systemTheme : theme;
 };
 
+const storageListeners = new Set<() => void>();
+
+const subscribeToStorage = (cb: () => void) => {
+	storageListeners.add(cb);
+	window.addEventListener("storage", cb);
+
+	return () => {
+		storageListeners.delete(cb);
+		window.removeEventListener("storage", cb);
+	};
+};
+
+const noopSubscribe = () => () => {};
+
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 
 export function ThemeProvider({
@@ -42,27 +62,38 @@ export function ThemeProvider({
 	defaultTheme = "system",
 	storageKey = "ui-theme",
 }: ThemeProviderProps) {
-	const [storedTheme, setStoredTheme] = useState<Theme | null>(null);
+	const storedTheme = useSyncExternalStore(
+		subscribeToStorage,
+		() => {
+			const value = window.localStorage.getItem(storageKey);
+			return isTheme(value) ? value : null;
+		},
+		() => null,
+	);
 	const systemTheme = useSystemTheme();
+	// The first client render reuses server snapshots, so it must not touch the
+	// <html> class that the inline head script already set correctly.
+	const isHydrated = useSyncExternalStore(
+		noopSubscribe,
+		() => true,
+		() => false,
+	);
 
 	const theme = storedTheme ?? defaultTheme;
 	const resolvedTheme = getResolvedTheme(theme, systemTheme);
 
 	useEffect(() => {
-		const value = window.localStorage.getItem(storageKey);
-		if (isTheme(value)) setStoredTheme(value);
-	}, [storageKey]);
-
-	useEffect(() => {
+		if (!isHydrated) return;
 		setGlobalTheme(resolvedTheme);
-		window.localStorage.setItem(`${storageKey}-resolved`, resolvedTheme);
-		document.cookie = `${storageKey}-resolved=${resolvedTheme}; path=/; max-age=${60 * 60 * 24 * 7}`;
-	}, [resolvedTheme, storageKey]);
+	}, [isHydrated, resolvedTheme]);
 
-	const setTheme = (theme: Theme) => {
-		window.localStorage.setItem(storageKey, theme);
-		setStoredTheme(theme);
-	};
+	const setTheme = useCallback(
+		(theme: Theme) => {
+			window.localStorage.setItem(storageKey, theme);
+			for (const listener of storageListeners) listener();
+		},
+		[storageKey],
+	);
 
 	const value: ThemeProviderState = {
 		theme: resolvedTheme,
